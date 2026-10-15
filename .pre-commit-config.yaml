@@ -1,0 +1,22 @@
+fail_fast: true
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.0
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+          - --output-format=github
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: Run mypy
+        entry: uv run mypy .
+        language: system
+        types: [ python ]
+        pass_filenames: false
+        always_run: true
+        stages: [ pre-push ]
