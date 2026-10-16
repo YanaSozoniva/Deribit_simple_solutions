@@ -12,8 +12,3 @@ class PriceDTO(BaseDTO):
     ticker: str
     timestamp: int
     id: int
-
-
-class PriceListDTO(BaseDTO):
-    """Модель для хранения списка цен"""
-    prices: list[PriceDTO]

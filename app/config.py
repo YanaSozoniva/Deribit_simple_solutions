@@ -14,11 +14,11 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     debug: bool = False
 
-    postgres_user: str
-    postgres_password: str
+    postgres_user: str = "postgres"
+    postgres_password: str = "skypro2024"
     postgres_host: str = "localhost"
     postgres_port: int = 5432
-    postgres_db: str
+    postgres_db: str = "deribit_db"
     db_echo: bool = False
 
     redis_host: str = "localhost"
@@ -36,6 +36,15 @@ class Settings(BaseSettings):
         """Async URL для приложения."""
         return (
             f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}"
+            f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
+
+    @computed_field
+    @property
+    def sync_database_url(self) -> str:
+        """Sync URL для Alembic (используем современный psycopg v3)"""
+        return (
+            f"postgresql+psycopg://{self.postgres_user}:{self.postgres_password}"
             f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
         )
 

@@ -30,9 +30,16 @@ services:
     command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
+    volumes:
+      - ./alembic/versions:/app/alembic/versions
     environment:
       POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: skypro2024
+      POSTGRES_DB: deribit_db
       REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       db:
         condition: service_healthy
@@ -41,11 +48,15 @@ services:
 
   celery_worker:
     build: .
-    command: celery -A app.celery.celery_app worker --loglevel=info --pool=custom
+    command: celery -A app.celery.celery_app worker --loglevel=info
     environment:
-      - CELERY_CUSTOM_WORKER_POOL=celery_aio_pool.pool:AsyncIOPool
-      - POSTGRES_HOST=db
-      - REDIS_HOST=redis
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: skypro2024
+      POSTGRES_DB: deribit_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       db:
         condition: service_healthy
