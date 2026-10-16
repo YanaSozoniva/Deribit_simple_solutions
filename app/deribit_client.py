@@ -1,6 +1,6 @@
 import aiohttp
 
-from app.utils.config import settings
+from app.config import settings
 
 
 class DeribitClient:
