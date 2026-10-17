@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     debug: bool = False
 
     postgres_user: str = "postgres"
-    postgres_password: str = "skypro2024"
+    postgres_password: str = "postgres"
     postgres_host: str = "localhost"
     postgres_port: int = 5432
     postgres_db: str = "deribit_db"
